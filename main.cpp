@@ -1,6 +1,7 @@
-#include <iostream>
+#include "includeDUO/AdminSystem.h"
 
 int main() {
-    std::cout << "Hello from CMake and Visual Studio!" << std::endl;
+    AdminSystem admin;
+    admin.runInteractive();
     return 0;
 }
