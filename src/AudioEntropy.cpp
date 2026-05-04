@@ -116,3 +116,11 @@ std::vector<uint8_t> AudioEntropy::getExtractBits() const {
 std::vector<uint8_t> AudioEntropy::getCleanedBits() const {
     return packBits(extractBits(rawSamples));
 }
+
+bool AudioEntropy::hasData() const {
+    if (rawSamples.empty()) return false;
+    for (size_t i = 0; i < rawSamples.size(); i += rawSamples.size() / 100 + 1) {
+        if (rawSamples[i] != 0) return true;
+    }
+    return false;
+}

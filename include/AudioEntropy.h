@@ -17,6 +17,7 @@ public:
 
     bool isOpenDevice(UINT deviceId, WAVEFORMATEX& wfx, HWAVEIN& hWaveOut);
     void capture();
+    bool hasData() const;
     std::vector<uint8_t> extractBits(const std::vector<int16_t>& samples) const;
     std::vector<uint8_t> packBits(const std::vector<uint8_t>& bits) const;
 

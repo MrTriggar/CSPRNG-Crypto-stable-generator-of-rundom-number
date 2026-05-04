@@ -30,14 +30,17 @@ std::vector<uint8_t> AdminSystem::generateRandom() {
         cpu.collectRawData(bytesNeeded);
         return SHA256::hash(cpu.getRawBytes());
     }
-    case SourceMode::MIC_ONLY: {
-        AudioEntropy mic(2, static_cast<DWORD>(bytesNeeded * 100));
+        case SourceMode::MIC_ONLY: {
+        AudioEntropy mic(2, 500);  // фиксированные 500 мс
         mic.capture();
-        auto bits = mic.getCleanedBits();
-        if (bits.size() > bytesNeeded)
-            bits.resize(bytesNeeded);
-        return SHA256::hash(bits);
-    }
+
+        if (!mic.hasData()) {
+            std::cout << "Error: No data from microphone. Check if it's connected.\n";
+            return {};
+        }
+
+        return SHA256::hash(mic.getCleanedBits());
+        }
     case SourceMode::BOTH: {
         AudioEntropy mic(2, static_cast<DWORD>(bytesNeeded * 100));
         mic.capture();
